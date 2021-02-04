@@ -1,7 +1,9 @@
 version: '3.2'
 networks:
   airflow:
-
+volumes:
+  volume-postgresql:
+    external: true
 services:
   postgres:
     image: postgres:13.1
@@ -14,8 +16,8 @@ services:
       - 5432:5432
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./database/data:/var/lib/postgresql/data/pgdata
-      - ./database/logs:/var/lib/postgresql/data/log
+      - volume-postgresql:/var/lib/postgresql/data/pgdata
+      - volume-postgresql:/var/lib/postgresql/data/log
     command: >
      postgres
        -c listen_addresses=*
